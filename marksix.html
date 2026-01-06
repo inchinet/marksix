@@ -1,0 +1,436 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=" UTF-8">
+  <title>Mark Six</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      position: relative;
+      transition: background 0.5s ease;
+    }
+
+    /* Real-time clock in top right */
+    #datetime {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      padding: 12px 20px;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      z-index: 1000;
+    }
+
+    /* Liquid glass container */
+    .glass-container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 40px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      max-width: 900px;
+      width: 100%;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5em;
+      background: linear-gradient(45deg, #77FFFF, #FFFF00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .info-text {
+      text-align: center;
+      color: #fff;
+      font-size: 1.1em;
+      margin-bottom: 20px;
+    }
+
+    hr {
+      border: none;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.3);
+      margin: 20px 0;
+    }
+
+    /* Input section */
+    .input-section {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      padding: 25px;
+      margin: 20px 0;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .input-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .input-row label {
+      color: #fff;
+      font-size: 1em;
+    }
+
+    input[type="text"] {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      padding: 10px;
+      color: #fff;
+      font-size: 1em;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    }
+
+    input[type="button"] {
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      border: none;
+      border-radius: 10px;
+      padding: 12px 30px;
+      color: #fff;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    input[type="button"]:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    input[type="button"]:active {
+      transform: translateY(0);
+    }
+
+    /* Number grid */
+    .number-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+      gap: 10px;
+      margin: 20px 0;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .number-grid input {
+      width: 100%;
+      min-width: 50px;
+    }
+
+    /* Total amount section */
+    .total-section {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      padding: 20px;
+      margin-top: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .total-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .total-row span {
+      color: #fff;
+      font-size: 1.1em;
+      font-weight: 500;
+    }
+
+    .total-row input {
+      max-width: 150px;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .glass-container {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 1.8em;
+      }
+
+      #datetime {
+        font-size: 12px;
+        padding: 8px 12px;
+        top: 10px;
+        right: 10px;
+      }
+    }
+  </style>
+  <script LANGUAGE="Javascript">
+    <!--  Generator Start Here
+    //     Written by Chin Ching Wing on Feb '97
+    //     You can cut-&-paste this script if you want to use it, provide
+    //     that the code should remain intact.
+    // ************************************************************************
+    var max = 49;
+    num= new Array(max);
+    
+    // Calculate total betting amount
+    function caltot()
+    {   if (document.forms[0].inum.value == 6)
+           {   document.forms[2].obet.value = 1
+                document.forms[2].otot.value = 10  }
+        else if (document.forms[0].inum.value == 7)
+           {   document.forms[2].obet.value = 7
+                document.forms[2].otot.value = 70  }
+        else
+           {   document.forms[2].obet.value = (document.forms[0].inum.value) *
+                                              (document.forms[0].inum.value - 1) *
+                                              (document.forms[0].inum.value - 2) *
+                                              (document.forms[0].inum.value - 3) *
+                                              (document.forms[0].inum.value - 4) *
+                                              (document.forms[0].inum.value - 5) / 720;
+                document.forms[2].otot.value = 10 * document.forms[2].obet.value }
+    }
+    
+    // Sort the numbers generated
+    function sortnum()
+    {    for (i=0; i<(document.forms[0].inum.value - 1); i++)
+         {   ex='N'; 
+              for (j=0; j<(document.forms[0].inum.value - i - 1); j++)
+             {    if (num[j+1] < num[j])
+                  {  ex='Y';
+                      temp = num[j+1];
+                      num[j+1]=num[j];
+                      num[j]= temp;
+                  }
+             }
+             if (ex=='N') { i=max; } 
+         }
+        for (i=0; i<(document.forms[0].inum.value); i++)
+        {   document.forms[1].elements[i].value=num[i];   }
+     }
+    
+    // Check input selection between 6 and 49.
+    function checkform(form) 
+    {  
+        if (form.inum.value==null || form.inum.value.length==0)
+       {            alert("\nPlease input your selection!"); 
+                    form.inum.value=6;
+       }
+       else if (parseInt(form.inum.value) < 6 ||
+                  parseInt(form.inum.value) >49)
+          {      alert("\nPlease enter a number between 6 and 49!");
+                  form.inum.value=6;
+           }
+     }
+    
+    // Generate the numbers required; check no same number generated.  Sort output.
+    function randomizeNumber() 
+    {   
+         // Clear all output boxes first
+         for (i=0; i<max; i++)
+         {    document.forms[1].elements[i].value=' ';   }
+         
+         for (i=0; i<document.forms[0].inum.value; i++)
+        {   num[i]=Math.floor(max*Math.random()+1);
+             newgen= ' ';
+             while (newgen != 'N')
+             {    newgen = ' ';
+                  for (j=0; (j<i && newgen != 'Y'); j++)
+                   {    while(num[i]==num[j]) 
+                  {	num[i]=Math.floor(max*Math.random()+1); newgen = 'Y'   }
+             } 
+                   if (newgen == ' ') { newgen = 'N'; }
+             }
+        }
+    
+       sortnum();
+    
+       caltot();                                                      // calculate total betting amount 
+    }
+    
+    // Real-time clock update
+function updateDateTime() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    
+    const dateTimeString = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+    document.getElementById('datetime').textContent = dateTimeString;
+}
+    
+    // Generate random beautiful gradient colors
+    function generateRandomGradient() {
+        const gradients = [
+            ['#667eea', '#764ba2'], // Purple
+            ['#f093fb', '#f5576c'], // Pink to Red
+            ['#4facfe', '#00f2fe'], // Blue
+            ['#43e97b', '#38f9d7'], // Green to Cyan
+            ['#fa709a', '#fee140'], // Pink to Yellow
+            ['#30cfd0', '#330867'], // Cyan to Deep Purple
+            ['#a8edea', '#fed6e3'], // Mint to Pink
+            ['#ff9a9e', '#fecfef'], // Coral to Pink
+            ['#ffecd2', '#fcb69f'], // Peach
+            ['#ff6e7f', '#bfe9ff'], // Red to Light Blue
+            ['#e0c3fc', '#8ec5fc'], // Lavender to Blue
+            ['#f6d365', '#fda085'], // Yellow to Orange
+            ['#fbc2eb', '#a6c1ee'], // Pink to Blue
+            ['#fdcbf1', '#e6dee9'], // Pink to Lavender
+            ['#a1c4fd', '#c2e9fb'], // Blue gradient
+            ['#d299c2', '#fef9d7'], // Purple to Cream
+            ['#89f7fe', '#66a6ff'], // Cyan to Blue
+            ['#fddb92', '#d1fdff'], // Gold to Cyan
+            ['#9890e3', '#b1f4cf'], // Purple to Mint
+            ['#ebc0fd', '#d9ded8']  // Lavender to Gray
+        ];
+        
+        const randomGradient = gradients[Math.floor(Math.random() * gradients.length)];
+        document.body.style.background = `linear-gradient(135deg, ${randomGradient[0]} 0%, ${randomGradient[1]} 100%)`;
+    }
+    
+    // Initialize clock and random gradient on page load
+    window.onload = function() {
+        generateRandomGradient();
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+    }
+    
+    // *** END *** -->
+  </script>
+</head>
+
+<body>
+
+  <!-- Real-time date and time display -->
+  <div id="datetime"></div>
+
+  <div class="glass-container">
+    <h1>Welcome to Mark Six (HK)</h1>
+
+    <p class="info-text">The total number in Lottery is 49</p>
+
+    <hr>
+
+    <div class="input-section">
+      <form NAME="randomizer">
+        <div class="input-row">
+          <label>Please choose numbers to generate (6-49):</label>
+          <input TYPE="text" NAME="inum" VALUE="6" SIZE="2">
+          <input TYPE="button" VALUE="Generate" onClick="checkform(this.form);randomizeNumber()">
+        </div>
+      </form>
+    </div>
+
+    <form NAME="outs">
+      <div class="number-grid">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+        <input TYPE="text" VALUE=" " SIZE="2">
+      </div>
+    </form>
+
+    <div class="total-section">
+      <form NAME="totalamt">
+        <div class="total-row">
+          <span>Total Amount:</span>
+          <span>$</span>
+          <input TYPE="text" NAME="oeach" VALUE="10" SIZE="1">
+          <span>x</span>
+          <input TYPE="text" NAME="obet" VALUE="1" SIZE="6">
+          <span>= $</span>
+          <input TYPE="text" NAME="otot" VALUE="10" SIZE="10">
+        </div>
+      </form>
+    </div>
+
+    <hr>
+  </div>
+
+</body>
+
+</html>
