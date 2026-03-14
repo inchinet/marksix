@@ -1,8 +1,10 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=" UTF-8">
-  <title>Mark Six</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mark Six 香港六合彩</title>
   <style>
     * {
       margin: 0;
@@ -12,14 +14,15 @@
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       padding: 20px;
       position: relative;
-      transition: background 0.5s ease;
+      transition: background 0.8s ease;
+      color: #ffffff;
     }
 
     /* Real-time clock in top right */
@@ -42,15 +45,16 @@
 
     /* Liquid glass container */
     .glass-container {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: rgba(15, 15, 25, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       padding: 40px;
-      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
       max-width: 900px;
       width: 100%;
+      margin-top: 20px;
     }
 
     h1 {
@@ -117,7 +121,7 @@
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
     }
 
-    input[type="button"] {
+    input[type="button"], button {
       background: linear-gradient(45deg, #667eea, #764ba2);
       border: none;
       border-radius: 10px;
@@ -130,12 +134,12 @@
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
-    input[type="button"]:hover {
+    input[type="button"]:hover, button:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
     }
 
-    input[type="button"]:active {
+    input[type="button"]:active, button:active {
       transform: translateY(0);
     }
 
@@ -157,11 +161,11 @@
 
     /* Total amount section */
     .total-section {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(0, 0, 0, 0.3);
       border-radius: 15px;
       padding: 20px;
       margin-top: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .total-row {
@@ -182,6 +186,206 @@
       max-width: 150px;
     }
 
+    /* ===== AI FORECAST SECTION ===== */
+    .ai-section {
+      margin-top: 30px;
+    }
+
+    .ai-section h2 {
+      text-align: center;
+      font-size: 1.8em;
+      margin-bottom: 8px;
+      background: linear-gradient(45deg, #FFD700, #FF6EC7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .ai-subtitle {
+      text-align: center;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9em;
+      margin-bottom: 20px;
+    }
+
+    .ai-controls {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      padding: 20px 25px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .ai-controls label {
+      color: #fff;
+      font-size: 1em;
+    }
+
+    #aiNumInput {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      padding: 10px;
+      color: #fff;
+      font-size: 1em;
+      text-align: center;
+      width: 60px;
+      transition: all 0.3s ease;
+    }
+
+    #aiNumInput:focus {
+      outline: none;
+      background: rgba(255,255,255,0.25);
+      border-color: rgba(255,255,255,0.5);
+      box-shadow: 0 0 15px rgba(255,255,255,0.3);
+    }
+
+    #aiForecastBtn {
+      background: linear-gradient(45deg, #FFD700, #FF6EC7);
+      border: none;
+      border-radius: 10px;
+      padding: 12px 30px;
+      color: #fff;
+      font-size: 1em;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 110, 199, 0.4);
+    }
+
+    #aiForecastBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 110, 199, 0.6);
+    }
+
+    #aiForecastBtn:active {
+      transform: translateY(0);
+    }
+
+    /* Forecast results */
+    .forecast-results {
+      margin-top: 20px;
+      display: none;
+    }
+
+    .forecast-results.visible {
+      display: block;
+    }
+
+    .forecast-card {
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 15px;
+      padding: 20px 25px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      animation: fadeSlideIn 0.5s ease forwards;
+      opacity: 0;
+    }
+
+    .forecast-card:nth-child(2) {
+      animation-delay: 0.15s;
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .forecast-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .forecast-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8em;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .badge-hot {
+      background: linear-gradient(45deg, #FF6347, #FF9500);
+      color: #fff;
+    }
+
+    .badge-balanced {
+      background: linear-gradient(45deg, #00C6FF, #0072FF);
+      color: #fff;
+    }
+
+    .forecast-card-title {
+      color: #fff;
+      font-size: 1.05em;
+      font-weight: 600;
+    }
+
+    .forecast-balls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .ball {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1em;
+      font-weight: 700;
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      position: relative;
+      transition: transform 0.2s ease;
+      animation: popIn 0.4s ease forwards;
+      opacity: 0;
+    }
+
+    .ball:hover {
+      transform: scale(1.12);
+    }
+
+    @keyframes popIn {
+      0%   { opacity: 0; transform: scale(0.4); }
+      70%  { transform: scale(1.15); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .ball-red    { background: radial-gradient(circle at 35% 35%, #ff3333, #800000); border: 2px solid rgba(255,255,255,0.4); box-shadow: 0 5px 15px rgba(255, 51, 51, 0.3); }
+    .ball-blue   { background: radial-gradient(circle at 35% 35%, #3399ff, #003399); border: 2px solid rgba(255,255,255,0.4); box-shadow: 0 5px 15px rgba(51, 153, 255, 0.3); }
+    .ball-green  { background: radial-gradient(circle at 35% 35%, #2eb82e, #004d00); border: 2px solid rgba(255,255,255,0.4); box-shadow: 0 5px 15px rgba(46, 184, 46, 0.3); }
+
+    /* Stats bar */
+    .ai-stats {
+      margin-top: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 12px;
+      padding: 14px 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .ai-stats p {
+      color: rgba(255,255,255,0.65);
+      font-size: 0.82em;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .ai-stats strong {
+      color: rgba(255,255,255,0.9);
+    }
+
     /* Responsive design */
     @media (max-width: 768px) {
       .glass-container {
@@ -198,9 +402,16 @@
         top: 10px;
         right: 10px;
       }
+
+      .ball {
+        width: 44px;
+        height: 44px;
+        font-size: 0.95em;
+      }
     }
   </style>
-  <script LANGUAGE="Javascript">
+
+  <script language="Javascript">
     <!--  Generator Start Here
     //     Written by Chin Ching Wing on Feb '97
     //     You can cut-&-paste this script if you want to use it, provide
@@ -224,7 +435,7 @@
                                               (document.forms[0].inum.value - 3) *
                                               (document.forms[0].inum.value - 4) *
                                               (document.forms[0].inum.value - 5) / 720;
-                document.forms[2].otot.value = 10 * document.forms[2].obet.value }
+               document.forms[2].otot.value = 10 * document.forms[2].obet.value }
     }
     
     // Sort the numbers generated
@@ -273,7 +484,7 @@
              {    newgen = ' ';
                   for (j=0; (j<i && newgen != 'Y'); j++)
                    {    while(num[i]==num[j]) 
-                  {	num[i]=Math.floor(max*Math.random()+1); newgen = 'Y'   }
+                  {  num[i]=Math.floor(max*Math.random()+1); newgen = 'Y'   }
              } 
                    if (newgen == ' ') { newgen = 'N'; }
              }
@@ -285,56 +496,204 @@
     }
     
     // Real-time clock update
-function updateDateTime() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
+    function updateDateTime() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        
+        const dateTimeString = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+        document.getElementById('datetime').textContent = dateTimeString;
+    }
     
-    const dateTimeString = `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
-    document.getElementById('datetime').textContent = dateTimeString;
-}
-    
-    // Generate random beautiful gradient colors
+    // Generate random premium high-contrast gradients
     function generateRandomGradient() {
         const gradients = [
-            ['#667eea', '#764ba2'], // Purple
-            ['#f093fb', '#f5576c'], // Pink to Red
-            ['#4facfe', '#00f2fe'], // Blue
-            ['#43e97b', '#38f9d7'], // Green to Cyan
-            ['#fa709a', '#fee140'], // Pink to Yellow
-            ['#30cfd0', '#330867'], // Cyan to Deep Purple
-            ['#a8edea', '#fed6e3'], // Mint to Pink
-            ['#ff9a9e', '#fecfef'], // Coral to Pink
-            ['#ffecd2', '#fcb69f'], // Peach
-            ['#ff6e7f', '#bfe9ff'], // Red to Light Blue
-            ['#e0c3fc', '#8ec5fc'], // Lavender to Blue
-            ['#f6d365', '#fda085'], // Yellow to Orange
-            ['#fbc2eb', '#a6c1ee'], // Pink to Blue
-            ['#fdcbf1', '#e6dee9'], // Pink to Lavender
-            ['#a1c4fd', '#c2e9fb'], // Blue gradient
-            ['#d299c2', '#fef9d7'], // Purple to Cream
-            ['#89f7fe', '#66a6ff'], // Cyan to Blue
-            ['#fddb92', '#d1fdff'], // Gold to Cyan
-            ['#9890e3', '#b1f4cf'], // Purple to Mint
-            ['#ebc0fd', '#d9ded8']  // Lavender to Gray
+            ['#0f172a', '#334155'], // Modern Slate
+            ['#000428', '#004e92'], // Royal Frost
+            ['#1a2a6c', '#f21202'], // Fire & Ice (High Contrast)
+            ['#12c2e9', '#c471ed', '#f64f59'], // JShine (Vibrant)
+            ['#430089', '#191919'], // Deep Purple/Dark
+            ['#000000', '#434343'], // Pure Onyx
+            ['#0575E6', '#021B79'], // Deep Blue Sea
+            ['#00F260', '#0575E6'], // Rainbow Blue/Green
+            ['#8E2DE2', '#4A00E0'], // Violet Dream
+            ['#f12711', '#f5af19'], // Flare (Orange/Red)
+            ['#2c3e50', '#000000'], // Midnight Forest
+            ['#FC466B', '#3F5EFB'], // Submerged (Pink/Blue)
+            ['#11998e', '#38ef7d']  // Quepal (Teal/Green)
         ];
         
-        const randomGradient = gradients[Math.floor(Math.random() * gradients.length)];
-        document.body.style.background = `linear-gradient(135deg, ${randomGradient[0]} 0%, ${randomGradient[1]} 100%)`;
+        const g = gradients[Math.floor(Math.random() * gradients.length)];
+        if (g.length === 3) {
+            document.body.style.background = `linear-gradient(135deg, ${g[0]} 0%, ${g[1]} 50%, ${g[2]} 100%)`;
+        } else {
+            document.body.style.background = `linear-gradient(135deg, ${g[0]} 0%, ${g[1]} 100%)`;
+        }
     }
     
     // Initialize clock and random gradient on page load
     window.onload = function() {
+        if (typeof DATA_META !== 'undefined') {
+            const subtitle = document.querySelector('.ai-subtitle');
+            if (subtitle) {
+                subtitle.innerHTML = `Analyzing historical results from ${DATA_META.period} · Latest update: ${DATA_META.lastUpdate}`;
+            }
+        }
         generateRandomGradient();
         updateDateTime();
         setInterval(updateDateTime, 1000);
+        
+        // AUTO SYNC: Start silent sync 2 seconds after page load
+        setTimeout(() => syncData(true), 2000);
     }
     
     // *** END *** -->
+  </script>
+
+  <script src="marksix_data.js"></script>
+
+  <!-- ===== AI FORECAST ENGINE ===== -->
+
+  <script>
+  // Ball color mapping (as requested by user)
+  function getBallClass(n) {
+    const redNums = [1, 2, 7, 8, 12, 13, 18, 19, 23, 24, 29, 30, 34, 35, 40, 45, 46];
+    const blueNums = [3, 4, 9, 10, 14, 15, 20, 25, 26, 31, 36, 37, 41, 42, 47, 48];
+    const greenNums = [5, 6, 11, 16, 17, 21, 22, 27, 28, 32, 33, 38, 39, 43, 44, 49];
+    
+    if (redNums.includes(n)) return 'ball-red';
+    if (blueNums.includes(n)) return 'ball-blue';
+    if (greenNums.includes(n)) return 'ball-green';
+    return '';
+  }
+
+  // Weighted random pick without replacement
+  // weights: array of {num, weight}
+  function weightedPick(pool, count) {
+    const result = [];
+    const available = pool.slice();
+
+    for (let i = 0; i < count; i++) {
+      if (available.length === 0) break;
+      const totalW = available.reduce((s, x) => s + x.weight, 0);
+      let r = Math.random() * totalW;
+      let chosen = available[available.length - 1];
+      for (let j = 0; j < available.length; j++) {
+        r -= available[j].weight;
+        if (r <= 0) { chosen = available[j]; break; }
+      }
+      result.push(chosen.num);
+      const idx = available.indexOf(chosen);
+      available.splice(idx, 1);
+    }
+    return result.sort((a, b) => a - b);
+  }
+
+  // Forecast strategy A: HOT-biased (70% hot zone weight boost)
+  function forecastHot(count) {
+    const pool = [];
+    for (let n = 1; n <= 49; n++) {
+      let w = HIST_FREQ[n];
+      if (HOT_NUMS.includes(n)) w = Math.round(w * 1.7);
+      pool.push({ num: n, weight: w });
+    }
+    return weightedPick(pool, count);
+  }
+
+  // Forecast strategy B: BALANCED (hot + overdue cold numbers)
+  function forecastBalanced(count) {
+    const pool = [];
+    for (let n = 1; n <= 49; n++) {
+      let w = HIST_FREQ[n];
+      if (HOT_NUMS.includes(n))  w = Math.round(w * 1.4);
+      if (COLD_NUMS.includes(n)) w = Math.round(w * 1.3); // overdue boost
+      pool.push({ num: n, weight: w });
+    }
+    return weightedPick(pool, count);
+  }
+
+  // Render ball elements with staggered animation
+  function renderBalls(numbers, containerId) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    numbers.forEach((n, idx) => {
+      const ball = document.createElement('div');
+      ball.className = `ball ${getBallClass(n)}`;
+      ball.textContent = n < 10 ? '0' + n : n;
+      ball.style.animationDelay = (idx * 0.08) + 's';
+      container.appendChild(ball);
+    });
+  }
+
+  // Main AI forecast trigger
+  function runAIForecast() {
+    // Re-use the input number from the first section
+    const mainInput = document.forms['randomizer'].inum;
+    let count = parseInt(mainInput.value);
+
+    if (isNaN(count) || count < 6) { count = 6; mainInput.value = 6; }
+    if (count > 49) { count = 49; mainInput.value = 49; }
+
+    const setA = forecastHot(count);
+    const setB = forecastBalanced(count);
+
+    renderBalls(setA, 'forecastBallsA');
+    renderBalls(setB, 'forecastBallsB');
+
+    // Update description labels
+    document.getElementById('forecastLabelA').textContent =
+      `Forecast 1 — Hot-Trend (${count} numbers)`;
+    document.getElementById('forecastLabelB').textContent =
+      `Forecast 2 — Balanced (${count} numbers)`;
+
+    const resultsDiv = document.getElementById('forecastResults');
+    resultsDiv.classList.remove('visible');
+    void resultsDiv.offsetWidth; // reflow to restart CSS animation
+    resultsDiv.classList.add('visible');
+  }
+
+  // Trigger server-side sync (via PHP bridge)
+  // isSilent: if true, no UI changes unless updated
+  async function syncData(isSilent = false) {
+    const btn = document.getElementById('syncBtn');
+    const OriginalText = btn ? btn.innerHTML : "Update Results";
+    
+    if (!isSilent && btn) {
+      btn.disabled = true;
+      btn.innerHTML = "⏳ Syncing Data...";
+    }
+
+    try {
+      const resp = await fetch('sync.php');
+      const data = await resp.json();
+      console.log('Sync Result:', data);
+      
+      // Check if the script actually updated the data
+      const wasUpdated = data.details && data.details.includes('RESULT:updated');
+      
+      if (wasUpdated) {
+        if (btn) btn.innerHTML = "✅ New Results Found!";
+        // Reload page to get new .js data
+        setTimeout(() => window.location.reload(), 1500);
+      } else {
+        if (!isSilent && btn) {
+          btn.innerHTML = "✅ Already Up-to-date";
+          setTimeout(() => { btn.innerHTML = OriginalText; btn.disabled = false; }, 3000);
+        }
+      }
+    } catch (e) {
+      console.error('Auto-sync check failed (Expected if local/no-php):', e);
+      if (!isSilent && btn) {
+        btn.innerHTML = "❌ Sync Failed";
+        btn.disabled = false;
+        setTimeout(() => btn.innerHTML = OriginalText, 3000);
+      }
+    }
+  }
   </script>
 </head>
 
@@ -344,7 +703,7 @@ function updateDateTime() {
   <div id="datetime"></div>
 
   <div class="glass-container">
-    <h1>Welcome to Mark Six (HK)</h1>
+    <h1>Welcome to Mark Six (HK) 香港六合彩</h1>
 
     <p class="info-text">The total number in Lottery is 49</p>
 
@@ -427,6 +786,50 @@ function updateDateTime() {
         </div>
       </form>
     </div>
+
+    <hr>
+
+    <!-- ===== AI FORECAST SECTION ===== -->
+    <div class="ai-section">
+      <h2>🤖 AI Forecast</h2>
+      <p class="ai-subtitle">
+        Analyzing latest historical draws · Hot &amp; Cold number analysis
+      </p>
+
+      <div class="ai-controls">
+        <button id="aiForecastBtn" onclick="runAIForecast()">✨ Generate AI Forecast</button>
+      </div>
+
+      <div id="forecastResults" class="forecast-results">
+
+        <!-- Forecast Card A: Hot-Trend -->
+        <div class="forecast-card">
+          <div class="forecast-card-header">
+            <span class="forecast-badge badge-hot">🔥 熱門趨勢</span>
+            <span class="forecast-card-title" id="forecastLabelA">Forecast 1</span>
+          </div>
+          <div class="forecast-balls" id="forecastBallsA"></div>
+        </div>
+
+        <!-- Forecast Card B: Balanced -->
+        <div class="forecast-card">
+          <div class="forecast-card-header">
+            <span class="forecast-badge badge-balanced">⚖️ 平衡型</span>
+            <span class="forecast-card-title" id="forecastLabelB">Forecast 2</span>
+          </div>
+          <div class="forecast-balls" id="forecastBallsB"></div>
+        </div>
+
+        <div class="ai-stats">
+          <p>
+            <strong>🔥 熱門趨勢</strong> — 根據近期出現頻率和歷史開獎數據加權。專注於近幾個月出現頻率較高的號碼。<br>
+            <strong>⚖️ 平衡型</strong> — 結合熱門號碼和統計上預計會回歸的「冷門」號碼。採用完整歷史數據進行概率分析。<br>
+          </p>
+        </div>
+
+      </div>
+    </div>
+    <!-- ===== END AI FORECAST ===== -->
 
     <hr>
   </div>
