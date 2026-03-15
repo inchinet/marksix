@@ -559,15 +559,22 @@
   <!-- ===== AI FORECAST ENGINE ===== -->
 
   <script>
-  // Ball color mapping (as requested by user)
+  // Ball color mapping (dynamically uses BALL_COLORS from marksix_data.js)
   function getBallClass(n) {
-    const redNums = [1, 2, 7, 8, 12, 13, 18, 19, 23, 24, 29, 30, 34, 35, 40, 45, 46];
-    const blueNums = [3, 4, 9, 10, 14, 15, 20, 25, 26, 31, 36, 37, 41, 42, 47, 48];
-    const greenNums = [5, 6, 11, 16, 17, 21, 22, 27, 28, 32, 33, 38, 39, 43, 44, 49];
-    
-    if (redNums.includes(n)) return 'ball-red';
-    if (blueNums.includes(n)) return 'ball-blue';
-    if (greenNums.includes(n)) return 'ball-green';
+    if (typeof BALL_COLORS !== 'undefined') {
+      if (BALL_COLORS.red && BALL_COLORS.red.includes(n)) return 'ball-red';
+      if (BALL_COLORS.blue && BALL_COLORS.blue.includes(n)) return 'ball-blue';
+      if (BALL_COLORS.green && BALL_COLORS.green.includes(n)) return 'ball-green';
+    } else {
+      // Fallback to hardcoded list if data not loaded
+      const redNums = [1, 2, 7, 8, 12, 13, 18, 19, 23, 24, 29, 30, 34, 35, 40, 45, 46];
+      const blueNums = [3, 4, 9, 10, 14, 15, 20, 25, 26, 31, 36, 37, 41, 42, 47, 48];
+      const greenNums = [5, 6, 11, 16, 17, 21, 22, 27, 28, 32, 33, 38, 39, 43, 44, 49];
+      
+      if (redNums.includes(n)) return 'ball-red';
+      if (blueNums.includes(n)) return 'ball-blue';
+      if (greenNums.includes(n)) return 'ball-green';
+    }
     return '';
   }
 

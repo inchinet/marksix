@@ -13,14 +13,17 @@ A premium web application for generating Hong Kong Mark Six lottery numbers with
 - **Dynamic Liquid Glass UI**: A modern, high-end design with glassmorphism effects and smooth animations.
 - **Historical Data**: Uses a comprehensive dataset of results continuously updated for AI analysis.
 - **Custom Ball Coloring**: Implements precise HK Mark Six color mapping (Red, Blue, Green).
-- **One-Click Update**: Integrated background engine to automatically fetch future 2026/2027 draws.
+- **One-Click Update**: Integrated background engine with primary source (marksixlotterynumbers.hk) and robust fallback (nfd.com.tw).
 
 ## How to Update Data
 
 The application now updates **automatically**.
 - Every time you open `marksix.html`, it silently checks for new draws in the background.
-- If new results are found (e.g., in April 2026), the page refreshes itself once with the new data.
-- No manual action is required!
+- **Scraping Logic**: 
+  1. Primary: [marksixlotterynumbers.hk](https://www.marksixlotterynumbers.hk/history/) (Modern results post-1993).
+  2. Fallback: [nfd.com.tw](https://www.nfd.com.tw/house/year/2026.htm) (Yearly tables in case of failure).
+  3. Base: [nfd.com.tw/house/1976-22.htm](https://www.nfd.com.tw/house/1976-22.htm) (Historical summary initialization).
+- If new results are found, the page refreshes once with the latest data.
 
 ## File Structure
 
@@ -42,10 +45,10 @@ Data is sourced from historical archives including:
 
 | File | Change Description |
 | :--- | :--- |
-| `marksix.html` | Implemented silent background sync on page load with auto-refresh on new data found. |
+| `marksix.html` | Implemented silent background sync and dynamic ball coloring from data file. |
 | `sync.php` | Created PHP bridge to allow browser-to-server command execution. |
-| `sync_data_suggestion.py` | Full implementation of Web Scraper & JS Data Generator for future years. |
-| `marksix_data.js` | Added DATA_META object and optimized structure for automated updates. |
+| `sync_data_suggestion.py` | Multi-source Scraper (Primary/Fallback) with specialized HK color mapping. |
+| `marksix_data.js` | Now includes `BALL_COLORS` config and enhanced frequency metadata. |
 
 ## Server Setup & Requirements
 
