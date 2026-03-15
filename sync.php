@@ -10,7 +10,7 @@
 header('Content-Type: application/json');
 
 // Run the python script and capture output
-$command = escapeshellcmd('/usr/bin/python3 sync_data_suggestion.py');
+$command = 'Z:\\antigravity\\venv\\Scripts\\python.exe sync_data_suggestion.py';
 $output = shell_exec($command . ' 2>&1');
 
 echo json_encode([

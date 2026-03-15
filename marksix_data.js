@@ -1,10 +1,11 @@
 /**
  * Historical frequency data for HK Mark Six
- * Last Updated: March 2026
- * Source: nfd.com.tw (1976 - Present)
+ * Last Updated: 2026-03-15
+ * Primary Source: marksixlotterynumbers.hk (Post-1993)
+ * Fallback/Base: nfd.com.tw (1976-Present)
  */
 const DATA_META = {
-    lastUpdate: "March 2026",
+    lastUpdate: "2026-03-15",
     lastDrawDate: "2026-03-12",
     period: "1976 — Present",
     totalDraws: "Calculated with results up to 2026-03-12"

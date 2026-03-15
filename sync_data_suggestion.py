@@ -95,8 +95,10 @@ def get_latest_results_primary():
             if len(nums) >= 6:
                 all_draws.append({'date': draw_date, 'nums': nums[:7]})
         
-        all_draws.sort(key=lambda x: x['date'])
-        return all_draws
+        # De-duplicate by date to prevent double entries if source has duplicates
+        unique_draws = {d['date']: d for d in all_draws}
+        final_draws = sorted(unique_draws.values(), key=lambda x: x['date'])
+        return final_draws
     except Exception as e:
         print(f"Primary source error: {e}")
         return []
@@ -158,8 +160,10 @@ def get_nfd_year_results(year):
                     if num_text.isdigit(): nums.append(int(num_text))
                 if len(nums) == 7: all_draws.append({'date': full_date, 'nums': nums[:7]})
             except: continue
-        all_draws.sort(key=lambda x: x['date'])
-        return all_draws
+        # De-duplicate by date
+        unique_draws = {d['date']: d for d in all_draws}
+        final_draws = sorted(unique_draws.values(), key=lambda x: x['date'])
+        return final_draws
     except Exception as e:
         print(f"Yearly draws error ({year}): {e}")
         return []
@@ -191,17 +195,16 @@ def update_data():
 
     # 4. Integrate New Results
     pending_draws = [d for d in new_draws if d['date'] > start_date]
-    if not pending_draws:
-        # If no new draws found, check if we need to sync color config
-        if "BALL_COLORS" in open(DATA_FILE, encoding='utf-8').read():
-            print(f"Already up to date. (Last draw: {start_date})")
-            return 'no_change'
-        else:
-            print("Syncing structure/colors...")
-            pending_draws = [] # Force update logic below
-
     print(f"Found {len(pending_draws)} new draws!")
-    latest_date = start_date
+    latest_date = draw['date'] if pending_draws else start_date
+    if not pending_draws:
+        # Check if current lastUpdate in file is old format (e.g., "March 2026")
+        with open(DATA_FILE, 'r', encoding='utf-8') as f:
+            if not re.search(r'lastUpdate: "\d{4}-\d{2}-\d{2}"', f.read()):
+                print("Updating file to reflect exact date format...")
+            else:
+                print(f"Already up to date. (Last draw: {start_date})")
+                return 'no_change'
     for draw in pending_draws:
         for n in draw['nums']:
             num_str = str(n)
@@ -215,7 +218,7 @@ def update_data():
 
     # Generate new JS content
     now = datetime.now()
-    update_str = now.strftime("%B %Y")
+    update_str = now.strftime("%Y-%m-%d")
     freq_lines = []
     freq_items = sorted(final_freq.items(), key=lambda x: int(x[0]))
     for i in range(0, 49, 7):
